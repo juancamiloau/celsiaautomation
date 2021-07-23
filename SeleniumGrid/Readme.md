@@ -14,3 +14,7 @@ Para agregar nodos al hub
 ```
 java -jar nombre-del-jar.jar node --grid-url http://<IP HUB>:4444
 ```
+
+
+## Documentanción original
+En este [enlace](https://www.selenium.dev/documentation/en/grid/grid_4/setting_up_your_own_grid/) puedes encontrar la documentación original de Selenium.
