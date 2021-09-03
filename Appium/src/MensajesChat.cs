@@ -7,20 +7,22 @@ using OpenQA.Selenium.Appium.Android;
 using SeleniumExtras.PageObjects;
 namespace Appium.src
 {
-    public class MensajesChat
+    public class MensajesChat:Interacciones
     {
         [FindsBy(How = How.XPath, Using = "//android.widget.Button[@content-desc='Iniciar chat']")]
         IWebElement iniciarChat;
-        AndroidDriver<AppiumWebElement> driver;
-        public MensajesChat(AndroidDriver<AppiumWebElement> driver)
+        string nombre ="";
+        
+        public MensajesChat(AndroidDriver<AppiumWebElement> driver):base(driver)
         {
             PageFactory.InitElements(driver,this);
-            this.driver = driver;
+            base.driver = driver;
         }
 
         public void clicIniciarChat()
         {
             iniciarChat.Click();
+            
         }
 
         public void EsconderChat()
