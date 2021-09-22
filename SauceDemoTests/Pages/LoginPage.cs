@@ -25,5 +25,10 @@ namespace SauceDemoTests.Pages
         {
             this.usuario.SendKeys(usuario);
         }
+
+        public void LoguearUsuario(String Usuario, string password)
+        {
+            
+        }
     }
 }
