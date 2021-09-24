@@ -3,9 +3,11 @@ using TechTalk.SpecFlow;
 using Boa.Constrictor.Screenplay;
 using Boa.Constrictor.WebDriver;
 using OpenQA.Selenium;
-using ScreenPlayPattern.abilities;
+using ScreenPlayPattern.Models;
 using ScreenPlayPattern.ComponentsUI;
 using FluentAssertions;
+using ScreenPlayPattern.Tasks;
+using TechTalk.SpecFlow.Assist;
 
 namespace ScreenPlayPattern.Steps
 {
@@ -19,7 +21,7 @@ namespace ScreenPlayPattern.Steps
             _scenarioContext = scenarioContext;
         }
 
-
+        [Given(@"(.*) was on SauceDemo")]
         [Given(@"(.*) is on SauceDemo")]
         public void GivenActorIsOnSauceDemo(string nameActor)
         {
@@ -29,12 +31,15 @@ namespace ScreenPlayPattern.Steps
             actor.AttemptsTo(Navigate.ToUrl("https://www.saucedemo.com/"));
         }
 
+        [Given(@"he logins on the portal")]
         [When(@"he logins on the portal")]
-        public void WhenHeLoginsOnThePortal()
+        public void WhenHeLoginsOnThePortal(Table table)
         {
-            actor.AttemptsTo(SendKeys.To(LoginComponent.UserInput, "standard_user"));
-            actor.AttemptsTo(SendKeys.To(LoginComponent.PasswordInput, "secret_sauce"));
-            actor.AttemptsTo(Click.On(LoginComponent.LoginButton));
+
+            Credentials credentials = table.CreateInstance<Credentials>();
+            //var user = table.Rows[0][0];
+            //var password = table.Rows[0][1];
+            actor.AttemptsTo(Login.WithCredentials(credentials.user, credentials.password));
         }
 
         [Then(@"he should see the products")]
@@ -42,6 +47,26 @@ namespace ScreenPlayPattern.Steps
         {
             actor.AsksFor(Appearance.Of(MenuBurguerComponent.MenuButton)).Should().BeTrue();
         }
+
+        [When(@"he logins on the portal with wrong credentials")]
+        public void WhenHeLoginsOnThePortalWithWrongCredentials()
+        {
+            actor.AttemptsTo(Login.WithCredentials("standard_user", "bad_password"));
+        }
+
+        [Then(@"he should see a message that ""(.*)""")]
+        public void ThenHeShouldSeeAMessageThat(string message)
+        {
+            actor.WaitsUntil(Text.Of(LoginComponent.ErrorMessageLabel), IsEqualTo.Value(message));
+        }
+
+        [Then(@"he should see a message that")]
+        public void ThenHeShouldSeeAMessageThat(Table table)
+        {
+            var message = table.Rows[0][0];
+            actor.WaitsUntil(Text.Of(LoginComponent.ErrorMessageLabel), IsEqualTo.Value(message));
+        }
+
 
     }
 }

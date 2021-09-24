@@ -26,7 +26,7 @@ namespace ScreenPlayPattern.Hooks
 
         [AfterScenario]
         public void CerrarDriver(){
-            Thread.Sleep(10000);
+            Thread.Sleep(5000);
             _scenarioContext.Get<ChromeDriver>("driver").Quit();
         }
     }
