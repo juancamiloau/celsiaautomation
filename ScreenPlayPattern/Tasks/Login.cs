@@ -1,6 +1,7 @@
 ﻿using Boa.Constrictor.Screenplay;
 using Boa.Constrictor.WebDriver;
 using ScreenPlayPattern.ComponentsUI;
+using ScreenPlayPattern.Interactions;
 
 namespace ScreenPlayPattern.Tasks
 {
@@ -18,7 +19,8 @@ namespace ScreenPlayPattern.Tasks
 
         public void PerformAs(IActor actor)
         {
-            actor.AttemptsTo(SendKeys.To(LoginComponent.UserInput, user));
+            //actor.AttemptsTo(SendKeys.To(LoginComponent.UserInput, user));
+            actor.AttemptsTo(Enter.TheValue(user).Into(LoginComponent.UserInput));
             actor.AttemptsTo(SendKeys.To(LoginComponent.PasswordInput, password));
             actor.AttemptsTo(Click.On(LoginComponent.LoginButton));
         }
@@ -27,5 +29,25 @@ namespace ScreenPlayPattern.Tasks
         {
             return new Login(user,password);
         }
+
+        public static LoginBuilder WithUser(string user)
+        {
+            return new LoginBuilder(user);
+        }
     }
+
+    public class LoginBuilder{
+        private string user;
+        
+        public LoginBuilder(string user)
+        {
+            this.user = user;
+        }
+
+        public Login AndPassword(string password)
+        {
+            return new Login(user, password);
+        }
+
+    } 
 }

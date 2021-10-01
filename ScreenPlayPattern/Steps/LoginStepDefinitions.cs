@@ -39,7 +39,8 @@ namespace ScreenPlayPattern.Steps
             Credentials credentials = table.CreateInstance<Credentials>();
             //var user = table.Rows[0][0];
             //var password = table.Rows[0][1];
-            actor.AttemptsTo(Login.WithCredentials(credentials.user, credentials.password));
+            // actor.AttemptsTo(Login.WithCredentials(credentials.user, credentials.password));
+            actor.AttemptsTo(Login.WithUser(credentials.user).AndPassword(credentials.password));
         }
 
         [Then(@"he should see the products")]
@@ -51,7 +52,8 @@ namespace ScreenPlayPattern.Steps
         [When(@"he logins on the portal with wrong credentials")]
         public void WhenHeLoginsOnThePortalWithWrongCredentials()
         {
-            actor.AttemptsTo(Login.WithCredentials("standard_user", "bad_password"));
+            //actor.AttemptsTo(Login.WithCredentials("standard_user", "bad_password"));
+            actor.AttemptsTo(Login.WithUser("user here").AndPassword("my password"));
         }
 
         [Then(@"he should see a message that ""(.*)""")]
