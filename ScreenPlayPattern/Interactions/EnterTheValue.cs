@@ -22,6 +22,8 @@ namespace ScreenPlayPattern.Interactions
             var driver = actor.Using<BrowseTheWeb>().WebDriver;
             driver.FindElement(target.Query).SendKeys(text);
         }
+
+
     }
 
     public class Enter

@@ -17,15 +17,16 @@ namespace ScreenPlayPattern.Hooks
             _scenarioContext = scenarioContext;
         }
 
+       
         [BeforeScenario]
         public void SetUpDriver()
         {
-            Console.WriteLine(Directory.GetCurrentDirectory());
             var builder = new ConfigurationBuilder()
-              .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             IConfiguration configuration = builder.Build();
-            Console.WriteLine(configuration["MyConfig:ApplicationName"]);
+            _scenarioContext.Add("config", configuration);
+
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("--incognito", "start-maximized");
             ChromeDriver driver = new ChromeDriver(options);

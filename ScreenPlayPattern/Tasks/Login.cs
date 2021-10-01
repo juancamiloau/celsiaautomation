@@ -23,6 +23,7 @@ namespace ScreenPlayPattern.Tasks
             actor.AttemptsTo(Enter.TheValue(user).Into(LoginComponent.UserInput));
             actor.AttemptsTo(SendKeys.To(LoginComponent.PasswordInput, password));
             actor.AttemptsTo(Click.On(LoginComponent.LoginButton));
+            
         }
 
         public static Login WithCredentials(string user, string password)

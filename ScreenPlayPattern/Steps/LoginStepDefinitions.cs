@@ -8,6 +8,8 @@ using ScreenPlayPattern.ComponentsUI;
 using FluentAssertions;
 using ScreenPlayPattern.Tasks;
 using TechTalk.SpecFlow.Assist;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace ScreenPlayPattern.Steps
 {
@@ -28,7 +30,7 @@ namespace ScreenPlayPattern.Steps
             IWebDriver driver = _scenarioContext.Get<IWebDriver>("driver");
             actor = new Actor(nameActor);
             actor.Can(BrowseTheWeb.With(driver));
-            actor.AttemptsTo(Navigate.ToUrl("https://www.saucedemo.com/"));
+            actor.AttemptsTo(Navigate.ToUrl(_scenarioContext.Get<IConfiguration>("config")["Url"]));
         }
 
         [Given(@"he logins on the portal")]
