@@ -22,9 +22,10 @@ namespace ScreenPlayPattern.Hooks
         public void SetUpDriver()
         {
             var builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
+             .SetBasePath(Directory.Get)
              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             IConfiguration configuration = builder.Build();
+            var url = configuration["Url"];
             _scenarioContext.Add("config", configuration);
 
             ChromeOptions options = new ChromeOptions();

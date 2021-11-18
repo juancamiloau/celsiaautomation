@@ -42,6 +42,7 @@ namespace ScreenPlayPattern.Steps
             //var user = table.Rows[0][0];
             //var password = table.Rows[0][1];
             // actor.AttemptsTo(Login.WithCredentials(credentials.user, credentials.password));
+            
             actor.AttemptsTo(Login.WithUser(credentials.user).AndPassword(credentials.password));
         }
 

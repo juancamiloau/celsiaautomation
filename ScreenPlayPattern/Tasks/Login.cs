@@ -2,6 +2,7 @@
 using Boa.Constrictor.WebDriver;
 using ScreenPlayPattern.ComponentsUI;
 using ScreenPlayPattern.Interactions;
+using TechTalk.SpecFlow;
 
 namespace ScreenPlayPattern.Tasks
 {
@@ -20,6 +21,7 @@ namespace ScreenPlayPattern.Tasks
         public void PerformAs(IActor actor)
         {
             //actor.AttemptsTo(SendKeys.To(LoginComponent.UserInput, user));
+            
             actor.AttemptsTo(Enter.TheValue(user).Into(LoginComponent.UserInput));
             actor.AttemptsTo(SendKeys.To(LoginComponent.PasswordInput, password));
             actor.AttemptsTo(Click.On(LoginComponent.LoginButton));
