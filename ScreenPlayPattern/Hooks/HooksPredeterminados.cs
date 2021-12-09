@@ -22,7 +22,7 @@ namespace ScreenPlayPattern.Hooks
         public void SetUpDriver()
         {
             var builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.Get)
+             .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).FullName)
              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             IConfiguration configuration = builder.Build();
             var url = configuration["Url"];

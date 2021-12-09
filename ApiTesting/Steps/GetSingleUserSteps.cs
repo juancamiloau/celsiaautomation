@@ -1,20 +1,28 @@
 ﻿using Boa.Constrictor.RestSharp;
 using Boa.Constrictor.Screenplay;
 using RestSharp;
-using System;
 using TechTalk.SpecFlow.Assist;
 using TechTalk.SpecFlow;
 using FluentAssertions;
 using System.Net;
 using ApiTesting.Models;
-using Newtonsoft.Json.Linq;
 using ApiTesting.Requests;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace ApiTesting.Steps
 {
     [Binding]
     public class GetSingleUserSteps
     {
+
+        private readonly ScenarioContext _scenarioContext;
+
+        public GetSingleUserSteps(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
 
         private IActor Actor;
         private IRestResponse<User> Response;
@@ -24,6 +32,7 @@ namespace ApiTesting.Steps
         {
             Actor = new Actor(nameActor);
             Actor.Can(CallRestApi.Using(ClientReqRes.WithURL(URL)));
+            _scenarioContext.Add("actor", Actor);
         }
         
         [When(@"he gets the user (.*)")]
@@ -48,5 +57,21 @@ namespace ApiTesting.Steps
             userObtained.last_name.Should().Be(userExpected.last_name);
 
         }
+
+
+        [Then(@"he should see that the schema is correct")]
+        public void ThenHeShouldSeeThatTheSchemaIsCorrect()
+        {
+            JsonSchemaGenerator generator = new JsonSchemaGenerator();
+            JsonSchema schema = generator.Generate(typeof(Data));
+            Console.WriteLine(generator.Generate(typeof(User)));
+
+            //JsonSchema jsSchema = JsonSchema.Parse(schema);
+            JObject user = JObject.FromObject(Response.Data.data);
+
+            user.IsValid(schema).Should().BeTrue();  
+        }
+
+
     }
 }
